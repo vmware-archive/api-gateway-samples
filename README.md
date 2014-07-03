@@ -13,7 +13,7 @@ $ mvn -version
   ```
   ```
 Apache Maven 3.0.4 (r1232337; 2012-01-17 03:44:56-0500)
-Maven home: /Users/dx107-xl/springsource/apache-maven-3.0.4
+Maven home: /Users/will.riker/springsource/apache-maven-3.0.4
 Java version: 1.8.0_20-ea, vendor: Oracle Corporation
 Java home: /Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre
 Default locale: en_US, platform encoding: UTF-8
@@ -25,7 +25,7 @@ https://github.com/cloudfoundry/cli
 
 4. In your workspace folder, create a project, either by cloning this repo, or by generating it from our Maven archetypes:
   ```
-$ mvn:archetype-generate -DarchetypeCatalog=https://maven.xtremelabs.com/artifactory/repo/ 
+$ mvn archetype:generate -DarchetypeCatalog=https://maven.xtremelabs.com/artifactory/repo/ 
   ```
 
 5. Run it! cd to the project folder, then:
