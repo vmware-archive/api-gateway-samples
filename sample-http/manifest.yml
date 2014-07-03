@@ -1,0 +1,9 @@
+---
+applications:
+ - name: HTTP Sample App
+   memory: 256M
+   instances: 1
+   buildpack: https://github.com/spring-io/java-buildpack
+   path: target/sample-http-1.0-SNAPSHOT-runnable.jar
+   services:
+    - api-gateway-dashboard

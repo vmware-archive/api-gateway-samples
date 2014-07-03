@@ -1,0 +1,8 @@
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ndf="http://graphical.weather.gov/xml/DWMLgen/wsdl/ndfdXML.wsdl">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ndf:LatLonListCityNames soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+         <displayLevel xsi:type="dwml:displayLevelType" xmlns:dwml="http://graphical.weather.gov/xml/DWMLgen/schema/DWML.xsd">1234</displayLevel>
+      </ndf:LatLonListCityNames>
+   </soapenv:Body>
+</soapenv:Envelope>
