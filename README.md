@@ -32,6 +32,7 @@ $ mvn archetype:generate -DarchetypeCatalog=https://maven.xtremelabs.com/artifac
   ``` 
 $ mvn spring-boot:run
   ```
+  By default, your server will run on port 8080 in the root context (eg http://localhost:8080/). The base path for all your API enpoints defaults to http://localhost:8080/api/, and each sample will respond to that url with a description of each endpoint it provides.
 
 6. Iterate! You can use your favourite text editor or IDE. You can change src/main/resources/app.js (the main application file), add your own .js modules, change anything loaded using require(), and modify static files in src/main/resources/public, without restarting the server.
 
