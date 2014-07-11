@@ -22,11 +22,11 @@ var fbGraphClient = require('http')({
 
 appRouter.get("/fb/pivotal", function(req,res,restofpath) {
   var result = fbGraphClient.getJSON('gopivotal'
-  , function(data,response) {
+  , function(response) {
     // the callback function will execute on the repsonse when its ready
     return {
-      reponse_code_from_fb: response.responseCode,
-      data_from_fb: data
+      reponse_code_from_fb: response.statusCode,
+      data_from_fb: response.body
     };
   });
   res.setBody(result);
@@ -39,11 +39,11 @@ appRouter.get("/fb/pivotal_http_request", function(req,res,restofpath) {
     headers: {Accept:'application/json'},
     connectTimeout:1000,
     socketTimeout:5000,
-  }, function(responseBody,response) {
+  }, function(response) {
     // the callback function will execute on the repsonse when its ready
     return {
-      reponse_code_from_fb: response.responseCode,
-      data_from_fb: JSON.parse(responseBody)
+      reponse_code_from_fb: response.statusCode,
+      data_from_fb: JSON.parse(response.body)
     };
   });
     
@@ -53,11 +53,11 @@ appRouter.get("/fb/pivotal_http_request", function(req,res,restofpath) {
 
 appRouter.get("/fb/*restofpath", function(req,res,restofpath) {
   var result = fbGraphClient.getJSON(restofpath
-  , function(data,response) {
-    // the callback function will execute on the repsonse when its ready
+  , function(response) {
+    // the callback function will execute on the response when its ready
     return {
-      reponse_code_from_fb: response.responseCode,
-      data_from_fb: data
+      reponse_code_from_fb: response.statusCode,
+      data_from_fb: response.body
     };
   });
   res.setBody(result);
@@ -66,6 +66,7 @@ appRouter.get("/fb/*restofpath", function(req,res,restofpath) {
 appRouter.all('/*catchall', function(req,res) {
   res.setBody({links :[
     {rel: 'Pivotal on Facebook\'s Graph API', href: baseUrl+'/fb/pivotal'},
+    {rel: 'Pivotal on Facebook\'s Graph API, setting headers and timeouts on the request', href: baseUrl+'/fb/pivotal_http_request'},
     {rel: 'Facebook\'s Graph API', href: baseUrl+'/fb/*anything'}
   ]});
 });

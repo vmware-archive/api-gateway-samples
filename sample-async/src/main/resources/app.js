@@ -5,15 +5,15 @@ var appRouter = new Router();
 var http = require("http")();
 
 appRouter.get("/rawjoke", function(req,res) {
-  var body = http.getJSON("http://api.icndb.com/jokes/random");
-  res.setBody(body);
+  var response = http.getJSON("http://api.icndb.com/jokes/random");
+  res.setBody({response:response});
 });
 
 appRouter.get("/joke", function(req,res) {
-  var body = http.getJSON("http://api.icndb.com/jokes/random").then(function(body) {
+  var body = http.getJSON("http://api.icndb.com/jokes/random").then(function(response) {
     return {
-      id: body.value.id,
-      joke : body.value.joke
+      id: response.body.value.id,
+      joke : response.body.value.joke
     }; 
   });
   res.setBody(body);
@@ -22,10 +22,10 @@ appRouter.get("/joke", function(req,res) {
 appRouter.get("/jokes", function(req,res) {
   var body = [];
   for (var i = 0; i < 5; i++) {
-    var joke = http.getJSON("http://api.icndb.com/jokes/random").then(function(body) {
+    var joke = http.getJSON("http://api.icndb.com/jokes/random").then(function(response) {
       return {
-        id: body.value.id,
-        joke : body.value.joke
+        id: response.body.value.id,
+        joke : response.body.value.joke
       }; 
     });
     body.push(joke);
@@ -36,14 +36,14 @@ appRouter.get("/jokes", function(req,res) {
 appRouter.get("/censordirtyjokes", function(req,res) {
   var body = [];
   for (var i = 0; i < 5; i++) {
-    var joke = http.getJSON("http://api.icndb.com/jokes/random").then(function(body) {
-      if (body.value.categories.length > 0) {
+    var joke = http.getJSON("http://api.icndb.com/jokes/random").then(function(response) {
+      if (response.body.value.categories.length > 0) {
         log.warn("dirty joke! '{}'",body.value.joke);
-        body.value.joke = "***CENSORED!***";
+        response.body.value.joke = "***CENSORED!***";
       }
       return {
-        id: body.value.id,
-        joke : body.value.joke
+        id: response.body.value.id,
+        joke : response.body.value.joke
       }; 
     });
     body.push(joke);
@@ -54,14 +54,14 @@ appRouter.get("/censordirtyjokes", function(req,res) {
 appRouter.get("/errordirtyjokes", function(req,res) {
   var body = [];
   for (var i = 0; i < 5; i++) {
-    var joke = http.getJSON("http://api.icndb.com/jokes/random").then(function(body) {
-      if (body.value.categories.length > 0) {
-        log.warn("dirty joke! '{}'",body.value.joke);
+    var joke = http.getJSON("http://api.icndb.com/jokes/random").then(function(response) {
+      if (response.body.value.categories.length > 0) {
+        log.warn("dirty joke! '{}'",response.body.value.joke);
         throw new Error("dirty joke!");
       }
       return {
-        id: body.value.id,
-        joke : body.value.joke
+        id: response.body.value.id,
+        joke : response.body.value.joke
       }; 
     });
     body.push(joke);
@@ -72,12 +72,12 @@ appRouter.get("/errordirtyjokes", function(req,res) {
 appRouter.get("/catcherrordirtyjokes", function(req,res) {
   var body = [];
   for (var i = 0; i < 5; i++) {
-    var joke = http.getJSON("http://api.icndb.com/jokes/random").then(function(body) {
-      if (body.value.categories.length > 0) {
-        log.warn("dirty joke! '{}'",body.value.joke);
+    var joke = http.getJSON("http://api.icndb.com/jokes/random").then(function(response) {
+      if (response.body.value.categories.length > 0) {
+        log.warn("dirty joke! '{}'",response.body.value.joke);
         throw new Error("dirty joke!");
       }
-      return body;
+      return response.body;
     }).then(function(body) {
       return {
         id: body.value.id,
@@ -101,14 +101,14 @@ function getCleanJoke(tries) {
       joke : "we couldn't find a clean joke"
     }
   }
-  return http.getJSON("http://api.icndb.com/jokes/random").then(function(body) {
-    if (body.value.categories.length > 0) {
-      log.warn("dirty joke! {} more tries... '{}'", tries, body.value.joke);
+  return http.getJSON("http://api.icndb.com/jokes/random").then(function(response) {
+    if (response.body.value.categories.length > 0) {
+      log.warn("dirty joke! {} more tries... '{}'", tries, response.body.value.joke);
       return getCleanJoke(--tries);
     }
     return {
-      id: body.value.id,
-      joke : body.value.joke
+      id: response.body.value.id,
+      joke : response.body.value.joke
     };
   });
 }

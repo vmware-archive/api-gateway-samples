@@ -9,9 +9,8 @@ var appRouter = new Router();
 
 appRouter.get("/weather/CA", function(req,res) {
   var lang = request.locale.language == 'fr' ? 'f' : 'e';
-  var sites = http.get('http://dd.weatheroffice.ec.gc.ca/citypage_weather/xml/siteList.xml')
-    .then(function(response) {
-      var siteList = XML.parse(response.getBody());
+  var sites = http.get('http://dd.weatheroffice.ec.gc.ca/citypage_weather/xml/siteList.xml',function(response) {
+      var siteList = XML.parse(response.body);
       return _.chain(siteList)
       .filter(function(site){
         var name = lang == 'f' ? site.nameFr : site.nameEn;
@@ -33,17 +32,15 @@ appRouter.get("/weather/CA", function(req,res) {
 
 appRouter.get("/weather/CA/:prov/:site",function(req,res,prov,site) {
   var lang = request.locale.language == 'fr' ? 'f' : 'e';
-  var weather = http.get('http://dd.weatheroffice.ec.gc.ca/citypage_weather/xml/'+prov+'/'+site+'_'+lang+'.xml')
-    .then(function(response){
+  var weather = http.get('http://dd.weatheroffice.ec.gc.ca/citypage_weather/xml/'+prov+'/'+site+'_'+lang+'.xml',function(response){
       var weatherObj = XML.parse(response.body);
-      return weatherObj;
-//      return {
-//        location : weatherObj.location.name['#text']+", "+weatherObj.location.province['#text'],
-//        currentConditions : {
-//          condition : weatherObj.currentConditions.condition,
-//          temperature : weatherObj.currentConditions.temperature['#text']+" "+weatherObj.currentConditions.temperature['@units'],
-//        }
-//      };
+      return {
+        location : weatherObj.location.name['#text']+", "+weatherObj.location.province['#text'],
+        currentConditions : {
+          condition : weatherObj.currentConditions.condition,
+          temperature : weatherObj.currentConditions.temperature['#text']+" "+weatherObj.currentConditions.temperature['@units'],
+        }
+      };
     });
   res.setBody(weather);
 });
@@ -59,8 +56,8 @@ appRouter.get('/weather/US/:zip',function(req,res,zip) {
       SOAPAction : "http://ws.cdyne.com/WeatherWS/GetCityWeatherByZIP"
     },
     body : require('/templates/getCityWeatherByZip.hbs')({zip:zip})
-  }).then(function(response){
-    var weatherObj = XML.parse(response.getBody())['soap:Body'].GetCityWeatherByZIPResponse.GetCityWeatherByZIPResult;
+  },function(response){
+    var weatherObj = XML.parse(response.body)['soap:Body'].GetCityWeatherByZIPResponse.GetCityWeatherByZIPResult;
     return {
       location : weatherObj.City+", "+weatherObj.State,
       currentConditions : {
@@ -82,8 +79,8 @@ appRouter.get('/cities/US/',function(req,res) {
       SOAPAction : "http://graphical.weather.gov/xml/DWMLgen/wsdl/ndfdXML.wsdl#LatLonListCityNames"
     },
     body : require('/templates/cityListRequest.xml.txt')
-  }).then(function(response){
-    var latLonListDwml = XML.parse(XML.parse(response.getBody())['SOAP-ENV:Body']['ns1:LatLonListCityNamesResponse']['listLatLonOut']['#text']);
+  }, function(response){
+    var latLonListDwml = XML.parse(XML.parse(response.body)['SOAP-ENV:Body']['ns1:LatLonListCityNamesResponse']['listLatLonOut']['#text']);
     var latLonArray = _.chain([latLonListDwml.latLonList.split(' '),latLonListDwml.cityNameList.split('|')])
       .zip()
       .map(function(cityArray) {
