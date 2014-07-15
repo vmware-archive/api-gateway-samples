@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.pivotal.mss.apigateway</groupId>
 		<artifactId>apigateway-starter-parent</artifactId>
-		<version>1.0.0.M5</version>
+		<version>1.0.0.M6</version>
 	</parent>
 
 	<groupId>com.example</groupId>
@@ -18,6 +18,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.example.http.Application</mainClass>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
