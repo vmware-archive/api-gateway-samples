@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.pivotal.mss.apigateway</groupId>
 		<artifactId>apigateway-starter-parent</artifactId>
-		<version>1.0.0.M6</version>
+		<version>1.0.0.M7</version>
 	</parent>
 
 	<groupId>com.example</groupId>

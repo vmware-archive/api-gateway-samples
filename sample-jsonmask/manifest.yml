@@ -1,7 +1,7 @@
 ---
 applications:
  - name: JSON Mask Sample App
-   memory: 256M
+   memory: 512M
    instances: 1
    buildpack: https://github.com/spring-io/java-buildpack
    path: target/sample-jsonmask-1.0-SNAPSHOT-runnable.jar

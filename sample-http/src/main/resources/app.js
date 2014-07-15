@@ -21,7 +21,7 @@ var fbGraphClient = require('http')({
 });
 
 appRouter.get("/fb/pivotal", function(req,res,restofpath) {
-  var result = fbGraphClient.getJSON('gopivotal'
+  var result = fbGraphClient.getJSON('pivotalsoftware'
   , function(response) {
     // the callback function will execute on the repsonse when its ready
     return {
@@ -35,7 +35,7 @@ appRouter.get("/fb/pivotal", function(req,res,restofpath) {
 appRouter.get("/fb/pivotal_http_request", function(req,res,restofpath) {
   // the request method of http allows you to override the default options 
   var result = fbGraphClient.request({
-    url: 'gopivotal',
+    url: 'pivotalsoftware',
     headers: {Accept:'application/json'},
     connectTimeout:1000,
     socketTimeout:5000,
