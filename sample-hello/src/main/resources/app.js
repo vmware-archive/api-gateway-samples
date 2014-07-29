@@ -20,10 +20,10 @@ appRouter.get("/echo/:message", function(req,res, message) {
 appRouter.all('/*catchall', function(req,res) {
   res.setBody({
     links :[
-    {rel: 'Hello world', href: baseUrl+'/hello'},
-    {rel: 'Hello world, using a Spring Bean to return the hello message ', href: baseUrl+'/hello-spring'},
-    {rel: 'Echos the message back. Also an example of module definition and loading.', href: baseUrl+'/echo/:message'},
-    {rel: 'Interactive test runner. You can modify tests and applicaiton code at runtime', href: "http://localhost:8080/test/index.html"}
+    {title: 'Hello world', href: baseUrl+'/hello'},
+    {title: 'Hello world, using a Spring Bean to return the hello message ', href: baseUrl+'/hello-spring'},
+    {title: 'Echos the message back. Also an example of module definition and loading.', href: baseUrl+'/echo/{message}', templated: true},
+    {title: 'Echos the message "hello"', href: baseUrl+'/echo/hello'}
   ]});
 });
 

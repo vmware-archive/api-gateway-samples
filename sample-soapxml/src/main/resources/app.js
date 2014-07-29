@@ -107,13 +107,14 @@ appRouter.all('/*catchall', function(req,res) {
   res.setBody({
     note:'All /weather/CA endpoints are bilingual; set your Accept-Language to fr-CA to test.',
     links :[
-    {rel: 'Canadian weather stations, supports query params [province, name] (XML)', href: baseUrl+'/weather/CA'},
-    {rel: 'Weather stations in Ontario', href: baseUrl+'/weather/CA?province=ON'},
-    {rel: 'Canadian weather by weather station (XML)', href: baseUrl+'/weather/CA/[province]/[stationID]'},
-    {rel: 'Toronto weather', href: baseUrl+'/weather/CA/ON/s0000458'},
-    {rel: 'Lat/Lon of US Cities (SOAP/XML)', href: baseUrl+'/cities/US'},
-    {rel: 'US weather by zip (SOAP/XML)', href: baseUrl+'/weather/US/[zip]'},
-    {rel: 'The weather in NYC', href: baseUrl+'/weather/US/10036'}
+    {title: 'Canadian weather stations, supports query params [province, name] (XML)', href: baseUrl+'/weather/CA{?province,name}', templated: true},
+    {title: 'Weather stations in Ontario', href: baseUrl+'/weather/CA?province=ON'},
+    {title: 'Weather stations named \'Toronto\'', href: baseUrl+'/weather/CA?name=Toronto'},
+    {title: 'Canadian weather by weather station (XML)', href: baseUrl+'/weather/CA/{province}/{stationID}', templated: true},
+    {title: 'Toronto weather', href: baseUrl+'/weather/CA/ON/s0000458'},
+    {title: 'Lat/Lon of US Cities (SOAP/XML)', href: baseUrl+'/cities/US'},
+    {title: 'US weather by zip (SOAP/XML)', href: baseUrl+'/weather/US/{zip}', templated: true},
+    {title: 'The weather in NYC', href: baseUrl+'/weather/US/10036'}
   ]});
 });
 

@@ -2,136 +2,145 @@ var Router = require("Router");
 
 var appRouter = new Router();
 
-var http = require("http")();
+var censoredSource = 'south_park';
+var apiUrl = "http://www.iheartquotes.com/api/v1/random?format=json&max_characters=200&source=starwars+xfiles+hitchhiker+"+censoredSource;
 
-appRouter.get("/rawjoke", function(req,res) {
-  var response = http.getJSON("http://api.icndb.com/jokes/random");
+var quoteApiClient = require("http")({
+  url: apiUrl
+});
+
+var shouldCensorQuote = function(quote) {
+  return quote.source == censoredSource;
+}
+
+appRouter.get("/rawquote", function(req,res) {
+  var response = quoteApiClient.getJSON();
   res.setBody({response:response});
 });
 
-appRouter.get("/joke", function(req,res) {
-  var body = http.getJSON("http://api.icndb.com/jokes/random").then(function(response) {
+appRouter.get("/quote", function(req,res) {
+  var body = quoteApiClient.getJSON().then(function(response) {
     return {
-      id: response.body.value.id,
-      joke : response.body.value.joke
+      link: response.body.link,
+      quote : response.body.quote
     }; 
   });
   res.setBody(body);
 });
 
-appRouter.get("/jokes", function(req,res) {
+appRouter.get("/quotes", function(req,res) {
   var body = [];
   for (var i = 0; i < 5; i++) {
-    var joke = http.getJSON("http://api.icndb.com/jokes/random").then(function(response) {
+    var quote = quoteApiClient.getJSON().then(function(response) {
       return {
-        id: response.body.value.id,
-        joke : response.body.value.joke
+        link: response.body.link,
+        quote : response.body.quote
       }; 
     });
-    body.push(joke);
+    body.push(quote);
   }
   res.setBody(body);
 });
 
-appRouter.get("/censordirtyjokes", function(req,res) {
+appRouter.get("/censorquotes", function(req,res) {
   var body = [];
   for (var i = 0; i < 5; i++) {
-    var joke = http.getJSON("http://api.icndb.com/jokes/random").then(function(response) {
-      if (response.body.value.categories.length > 0) {
-        log.warn("dirty joke! '{}'",body.value.joke);
-        response.body.value.joke = "***CENSORED!***";
+    var quote = quoteApiClient.getJSON().then(function(response) {
+      if (shouldCensorQuote(response.body)) {
+        log.warn("censored quote! '{}'",response.body.quote);
+        response.body.quote = "***CENSORED!***";
       }
       return {
-        id: response.body.value.id,
-        joke : response.body.value.joke
+        link: response.body.link,
+        quote : response.body.quote
       }; 
     });
-    body.push(joke);
+    body.push(quote);
   }
   res.setBody(body);
 });
 
-appRouter.get("/errordirtyjokes", function(req,res) {
+appRouter.get("/errorcensoredquotes", function(req,res) {
   var body = [];
   for (var i = 0; i < 5; i++) {
-    var joke = http.getJSON("http://api.icndb.com/jokes/random").then(function(response) {
-      if (response.body.value.categories.length > 0) {
-        log.warn("dirty joke! '{}'",response.body.value.joke);
-        throw new Error("dirty joke!");
+    var quote = quoteApiClient.getJSON().then(function(response) {
+      if (shouldCensorQuote(response.body)) {
+        log.warn("censored quote! '{}'",response.body.quote);
+        throw new Error("censored quote!");
       }
       return {
-        id: response.body.value.id,
-        joke : response.body.value.joke
+        link: response.body.link,
+        quote : response.body.quote
       }; 
     });
-    body.push(joke);
+    body.push(quote);
   }
   res.setBody(body);
 });
 
-appRouter.get("/catcherrordirtyjokes", function(req,res) {
+appRouter.get("/catcherrorcensoredquotes", function(req,res) {
   var body = [];
   for (var i = 0; i < 5; i++) {
-    var joke = http.getJSON("http://api.icndb.com/jokes/random").then(function(response) {
-      if (response.body.value.categories.length > 0) {
-        log.warn("dirty joke! '{}'",response.body.value.joke);
-        throw new Error("dirty joke!");
+    var quote = quoteApiClient.getJSON().then(function(response) {
+      if (shouldCensorQuote(response.body)) {
+        log.warn("censored quote! '{}'",response.body.quote);
+        throw new Error("censored quote!");
       }
       return response.body;
     }).then(function(body) {
       return {
-        id: body.value.id,
-        joke : body.value.joke
+        link: body.link,
+        quote : body.quote
       };
     },function(e) {
       return {
-        id: -1,
-        joke : "The joke was dirty"
+        link: null,
+        quote : "The quote is censored"
       }
     });
-    body.push(joke);
+    body.push(quote);
   }
   res.setBody(body);
 });
 
-function getCleanJoke(tries) {
+function getCleanQuote(tries) {
   if (tries <= 0) {
     return {
-      id: -1,
-      joke : "we couldn't find a clean joke"
+      link: null,
+      quote : "we couldn't find a clean quote"
     }
   }
-  return http.getJSON("http://api.icndb.com/jokes/random").then(function(response) {
-    if (response.body.value.categories.length > 0) {
-      log.warn("dirty joke! {} more tries... '{}'", tries, response.body.value.joke);
-      return getCleanJoke(--tries);
+  return quoteApiClient.getJSON().then(function(response) {
+    if (shouldCensorQuote(response.body)) {
+      log.warn("censored quote! {} more tries... '{}'", tries, response.body.quote);
+      return getCleanQuote(--tries);
     }
     return {
-      id: response.body.value.id,
-      joke : response.body.value.joke
+      link: response.body.link,
+      quote : response.body.quote
     };
   });
 }
 
-appRouter.get("/cleanjokes", function(req,res) {
+appRouter.get("/cleanquotes", function(req,res) {
   var body = [];
   for (var i = 0; i < 5; i++) {
-    body.push(getCleanJoke(5));
+    body.push(getCleanQuote(5));
   }
   res.setBody(body);
 });
 
 appRouter.all('/*catchall', function(req,res) {
   res.setBody({
-    note:'Cuck Norris jokes from http://www.icndb.com/. All endpoints use http://api.icndb.com/jokes/random. A "dirty" joke is a joke that has a category.',
+    note:'Random quotes from http://www.iheartquotes.com/. All endpoints use '+apiUrl+'. A "censored" quote is a quote that has a source == "'+censoredSource+'".',
     links :[
-    {rel: 'The raw output of a single random joke', href: baseUrl+'/rawjoke'},
-    {rel: 'Just the id and content of a joke', href: baseUrl+'/joke'},
-    {rel: 'Fetch 5 jokes in parallel', href: baseUrl+'/jokes'},
-    {rel: 'Fetch 5 jokes in parallel, censor dirty jokes', href: baseUrl+'/censordirtyjokes'},
-    {rel: 'Fetch 5 jokes in parallel, throw an error for dirty jokes', href: baseUrl+'/errordirtyjokes'},
-    {rel: 'Fetch 5 jokes in parallel, throw an error for dirty jokes, then catch it in the next promise chain', href: baseUrl+'/catcherrordirtyjokes'},
-    {rel: 'Fetch 5 jokes in parallel, replace dirty jokes with clean jokes', href: baseUrl+'/cleanjokes'},
+    {title: 'The raw output of a single random quote', href: baseUrl+'/rawquote'},
+    {title: 'Just the link and content of a quote', href: baseUrl+'/quote'},
+    {title: 'Fetch 5 quotes in parallel', href: baseUrl+'/quotes'},
+    {title: 'Fetch 5 quotes in parallel, censor quotes', href: baseUrl+'/censorquotes'},
+    {title: 'Fetch 5 quotes in parallel, throw an error for censored quotes', href: baseUrl+'/errorcensoredquotes', expect:[{statusCode:504},{statusCode:200}]},
+    {title: 'Fetch 5 quotes in parallel, throw an error for censored quotes, then catch it in the next promise chain', href: baseUrl+'/catcherrorcensoredquotes'},
+    {title: 'Fetch 5 quotes in parallel, replace censored quotes with clean quotes', href: baseUrl+'/cleanquotes'}
   ]});
 });
 

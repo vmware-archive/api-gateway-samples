@@ -65,9 +65,10 @@ appRouter.get("/fb/*restofpath", function(req,res,restofpath) {
 
 appRouter.all('/*catchall', function(req,res) {
   res.setBody({links :[
-    {rel: 'Pivotal on Facebook\'s Graph API', href: baseUrl+'/fb/pivotal'},
-    {rel: 'Pivotal on Facebook\'s Graph API, setting headers and timeouts on the request', href: baseUrl+'/fb/pivotal_http_request'},
-    {rel: 'Facebook\'s Graph API', href: baseUrl+'/fb/*anything'}
+    {title: 'Pivotal on Facebook\'s Graph API', href: baseUrl+'/fb/pivotal'},
+    {title: 'Pivotal on Facebook\'s Graph API, setting headers and timeouts on the request', href: baseUrl+'/fb/pivotal_http_request'},
+    {title: 'Facebook\'s Graph API', href: baseUrl+'/fb/{username}', templated: true},
+    {title: 'Rick Astley on Facebook\'s Graph API', href: baseUrl+'/fb/RickAstley'}
   ]});
 });
 

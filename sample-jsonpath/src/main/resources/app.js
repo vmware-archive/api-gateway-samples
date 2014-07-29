@@ -24,11 +24,11 @@ appRouter.all('/*catchall', function(req,res) {
   res.setBody({
     note:'Running JSONPath on prerecorded weather data. JSONPath provided by https://code.google.com/p/json-path/',
     links :[
-    {rel: 'Original weather object', href: baseUrl+'/weather'},
-    {rel: 'Toronto weather now', href: baseUrl+'/weather/now'},
-    {rel: 'Toronto weather yesterday', href: baseUrl+'/weather/yesterday'},
-    {rel: 'First 2 forecast periods', href: baseUrl+'/weather?path=forecastGroup.forecast[0:2]'},
-    {rel: 'Last 2 forecast periods', href: baseUrl+'/weather?path=forecastGroup.forecast[-2:]'}
+    {title: 'Original weather object', href: baseUrl+'/weather'},
+    {title: 'Toronto weather now', href: baseUrl+'/weather/now'},
+    {title: 'Toronto weather yesterday', href: baseUrl+'/weather/yesterday'},
+    {title: 'First 2 forecast periods', href: baseUrl+'/weather?path=forecastGroup.forecast[0:2]'},
+    {title: 'Last 2 forecast periods', href: baseUrl+'/weather?path=forecastGroup.forecast[-2:]'}
   ]});
 });
 

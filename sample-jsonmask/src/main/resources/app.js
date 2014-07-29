@@ -24,11 +24,11 @@ appRouter.all('/*catchall', function(req,res) {
   res.setBody({
     note:'Running JSON Mask on prerecorded weather data. JSON Mask provided by https://github.com/nemtsov/json-mask',
     links :[
-    {rel: 'Original weather object', href: baseUrl+'/weather'},
-    {rel: 'Toronto weather now', href: baseUrl+'/weather/now'},
-    {rel: 'Toronto weather yesterday', href: baseUrl+'/weather/yesterday'},
-    {rel: 'Toronto weather now, only temperature and condition', href: baseUrl+'/weather?fields=currentConditions(condition,temperature)'},
-    {rel: 'Toronto forecast, only temperature and condition', href: baseUrl+'/weather?fields=forecastGroup/forecast(period/@textForecastName,abbreviatedForecast/textSummary,temperatures/temperature)'}
+    {title: 'Original weather object', href: baseUrl+'/weather'},
+    {title: 'Toronto weather now', href: baseUrl+'/weather/now'},
+    {title: 'Toronto weather yesterday', href: baseUrl+'/weather/yesterday'},
+    {title: 'Toronto weather now, only temperature and condition', href: baseUrl+'/weather?fields=currentConditions(condition,temperature)'},
+    {title: 'Toronto forecast, only temperature and condition', href: baseUrl+'/weather?fields=forecastGroup/forecast(period/@textForecastName,abbreviatedForecast/textSummary,temperatures/temperature)'}
   ]});
 });
 
