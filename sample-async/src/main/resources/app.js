@@ -138,7 +138,7 @@ appRouter.all('/*catchall', function(req,res) {
     {title: 'Just the link and content of a quote', href: baseUrl+'/quote'},
     {title: 'Fetch 5 quotes in parallel', href: baseUrl+'/quotes'},
     {title: 'Fetch 5 quotes in parallel, censor quotes', href: baseUrl+'/censorquotes'},
-    {title: 'Fetch 5 quotes in parallel, throw an error for censored quotes', href: baseUrl+'/errorcensoredquotes', expect:[{statusCode:504},{statusCode:200}]},
+    {title: 'Fetch 5 quotes in parallel, throw an error for censored quotes', href: baseUrl+'/errorcensoredquotes', expect:[{statusCode:500},{statusCode:200}]},
     {title: 'Fetch 5 quotes in parallel, throw an error for censored quotes, then catch it in the next promise chain', href: baseUrl+'/catcherrorcensoredquotes'},
     {title: 'Fetch 5 quotes in parallel, replace censored quotes with clean quotes', href: baseUrl+'/cleanquotes'}
   ]});
