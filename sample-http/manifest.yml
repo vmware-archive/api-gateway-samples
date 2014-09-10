@@ -1,6 +1,6 @@
 ---
 applications:
- - name: HTTP Sample App
+ - name: sample-http
    memory: 512M
    instances: 1
    buildpack: https://github.com/spring-io/java-buildpack

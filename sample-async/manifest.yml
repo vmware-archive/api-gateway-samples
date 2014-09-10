@@ -1,6 +1,6 @@
 ---
 applications:
- - name: Async Sample App
+ - name: sample-async
    memory: 512M
    instances: 1
    buildpack: https://github.com/spring-io/java-buildpack

@@ -5,7 +5,9 @@ import java.util.Collection;
 
 import org.junit.Test;
 import org.junit.runners.Parameterized.Parameters;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 
+@SpringApplicationConfiguration(classes = com.example.uadetector.Application.class)
 public class ApplicationSpecTest extends com.pivotal.mss.apigateway.test.ApplicationSpecTest {
 
 	public ApplicationSpecTest(String specName, String specFile) {

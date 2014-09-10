@@ -1,6 +1,6 @@
 ---
 applications:
- - name: JSON Path Sample App
+ - name: sample-jsonpath
    memory: 512M
    instances: 1
    buildpack: https://github.com/spring-io/java-buildpack
