@@ -4,7 +4,6 @@ var appRouter = new Router();
 
 var censoredSource = 'south_park';
 var apiUrl = "http://www.iheartquotes.com/api/v1/random?format=json&max_characters=200&source=starwars+xfiles+hitchhiker+"+censoredSource;
-var numberOfQuotes = 20;
 
 var quoteApiClient = require("http")({
   url: apiUrl
@@ -31,8 +30,7 @@ appRouter.get("/quote", function(req,res) {
 
 appRouter.get("/quotes", function(req,res) {
   var body = [];
-  var num = req.parameters['limit']
-  for (var i = 0; i < num; i++) {
+  for (var i = 0; i < 5; i++) {
     var quote = quoteApiClient.getJSON().then(function(response) {
       return {
         link: response.body.link,
@@ -46,7 +44,7 @@ appRouter.get("/quotes", function(req,res) {
 
 appRouter.get("/censorquotes", function(req,res) {
   var body = [];
-  for (var i = 0; i < numberOfQuotes; i++) {
+  for (var i = 0; i < 5; i++) {
     var quote = quoteApiClient.getJSON().then(function(response) {
       if (shouldCensorQuote(response.body)) {
         log.warn("censored quote! '{}'",response.body.quote);
@@ -64,7 +62,7 @@ appRouter.get("/censorquotes", function(req,res) {
 
 appRouter.get("/errorcensoredquotes", function(req,res) {
   var body = [];
-  for (var i = 0; i < numberOfQuotes; i++) {
+  for (var i = 0; i < 5; i++) {
     var quote = quoteApiClient.getJSON().then(function(response) {
       if (shouldCensorQuote(response.body)) {
         log.warn("censored quote! '{}'",response.body.quote);
@@ -82,7 +80,7 @@ appRouter.get("/errorcensoredquotes", function(req,res) {
 
 appRouter.get("/catcherrorcensoredquotes", function(req,res) {
   var body = [];
-  for (var i = 0; i < numberOfQuotes; i++) {
+  for (var i = 0; i < 5; i++) {
     var quote = quoteApiClient.getJSON().then(function(response) {
       if (shouldCensorQuote(response.body)) {
         log.warn("censored quote! '{}'",response.body.quote);
@@ -126,8 +124,8 @@ function getCleanQuote(tries) {
 
 appRouter.get("/cleanquotes", function(req,res) {
   var body = [];
-  for (var i = 0; i < numberofQuotes; i++) {
-    body.push(getCleanQuote(numberOfQuotes));
+  for (var i = 0; i < 5; i++) {
+    body.push(getCleanQuote(5));
   }
   res.setBody(body);
 });
