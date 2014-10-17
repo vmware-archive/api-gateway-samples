@@ -1,6 +1,5 @@
 var Router = require("Router");
 var _ = require("lodash");
-var when = require("when");
 require("handlebars");
 var http = require("http")();
 var XML = require("XML");

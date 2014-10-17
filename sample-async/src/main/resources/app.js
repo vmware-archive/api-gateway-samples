@@ -2,8 +2,12 @@ var Router = require("Router");
 
 var appRouter = new Router();
 
-var censoredSource = 'south_park';
-var apiUrl = "http://www.iheartquotes.com/api/v1/random?format=json&max_characters=200&source=starwars+xfiles+hitchhiker+"+censoredSource;
+// this was 'south_park' but the unflitered endpoints could
+// let questionable quotes from this source through.
+// so we're keeping it clean by using xfiles as the censoredSource
+// among the other sources starwars and hitchhiker
+var censoredSource = 'xfiles';
+var apiUrl = "http://www.iheartquotes.com/api/v1/random?format=json&max_characters=200&source=starwars+hitchhiker"+censoredSource;
 
 var quoteApiClient = require("http")({
   url: apiUrl
