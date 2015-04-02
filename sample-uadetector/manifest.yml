@@ -3,7 +3,7 @@ applications:
  - name: sample-uadetector
    memory: 512M
    instances: 1
-   buildpack: https://github.com/spring-io/java-buildpack
+   buildpack: https://github.com/cfmobile/java-buildpack
    path: target/sample-uadetector-1.0-SNAPSHOT-runnable.jar
    services:
     - api-gateway-dashboard
