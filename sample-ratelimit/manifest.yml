@@ -1,0 +1,9 @@
+---
+applications:
+ - name: mobile-gateway
+   memory: 512M
+   instances: 1
+   buildpack: https://github.com/spring-io/java-buildpack
+   path: target/mobile-gateway-1.0-SNAPSHOT-runnable.jar
+   services:
+    - mobile-gateway
