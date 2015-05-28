@@ -6,7 +6,7 @@ import java.util.Collection;
 import org.junit.Test;
 import org.junit.runners.Parameterized.Parameters;
 
-public class ApplicationSpecTest extends com.pivotal.mss.apigateway.test.ApplicationSpecTest {
+public class ApplicationSpecTest extends io.pivotal.pcfms.nashorn.test.ApplicationSpecTest {
 
 	public ApplicationSpecTest(String specName, String specFile) {
         super(specName, specFile);
@@ -14,7 +14,7 @@ public class ApplicationSpecTest extends com.pivotal.mss.apigateway.test.Applica
 	
 	@Parameters(name = "{0}")
     public static Collection<Object[]> getParameters() throws IOException {
-        return com.pivotal.mss.apigateway.test.ApplicationSpecTest.getParameters("spec");
+        return  io.pivotal.pcfms.nashorn.test.ApplicationSpecTest.getParameters("spec");
     }
 
     @Test

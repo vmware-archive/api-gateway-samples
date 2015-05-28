@@ -3,7 +3,8 @@ var RatedRouter = function(router) {
 }
 
 function getApiKey(req){
-	var header = req.headers["Authorization"];
+	console.log(Object.keys(req.headers));
+	var header = req.headers["authorization"];
 	return header.split(" ")[1];
 }
 
