@@ -2,7 +2,7 @@ var Rate = Packages.io.pivotal.api.rate.Rate;
 var rateLimiter = spring.getBean("rateLimiter");
 
 var Router = require("Router");
-var RatedRouter = require("modules/RatedRouter")
+var RatedRouter = require("./modules/RatedRouter.js")
 var router = new Router();
 var appRouter = new RatedRouter(router);
 
