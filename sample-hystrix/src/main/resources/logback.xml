@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!--
+
+	This file is the default logback configuration for Spring Boot. To use the same
+	defaults and add custom logger levels you can copy this file and add additional
+	overrides, e.g:
+
+	<include resource="logging/logback-base.xml"/>
+	<logger name="com.pivotal.mss.apigateway" level="DEBUG"/>
+	...
+
+    -->
+	<include resource="logging/logback-base.xml"/>
+	<logger name="io.pivotal.api-gateway-hystrix.jsmodule." level="INFO"/>
+</configuration>

@@ -1,0 +1,7 @@
+---
+applications:
+ - name: sample-hystrix
+   memory: 512M
+   instances: 1
+   buildpack: https://github.com/cfmobile/java-buildpack
+   path: target/api-gateway-hystrix-1.0-SNAPSHOT-runnable.jar
