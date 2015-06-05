@@ -3,21 +3,8 @@ var appRouter = new Router();
 
 var sampleService = require('./services/sample-service.js');
 
-
 appRouter.get("/circuit", function(req, res, name) {
-  res.setBody(sampleService.test() );
-});
-
-appRouter.get("/test", function(req, res) {
-  
-  var blah = Math.floor( (Math.random() * 10) + 1 );
-  
-  if ( blah > 6) {
-    res.setStatus(500);
-  }
-
-  res.setBody("You get a " + blah);
-  
+  res.setBody( sampleService.test() );
 });
 
 appRouter.all('/*catchall', function(req,res) {

@@ -23,6 +23,7 @@ module.exports = (function() {
     return this.instance.execute();
   };
 
+
   return HystrixCommand;
 
 }());

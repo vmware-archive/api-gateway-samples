@@ -11,7 +11,7 @@ var api = require('http')({
 
 module.exports = {
   "test" : function(){ 
-    return new HystrixCommand("test", "apiRequest", function(){
+    return new HystrixCommand("getUsers", "apiRequest", function(){
 
       var request = api.get(endpoint, function(response){
         

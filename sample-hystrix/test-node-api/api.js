@@ -8,8 +8,7 @@ function fail(res){
   res.end('Goodbye Cruel World\n');
 }
 
-function success(res){
-  console.log("YO")
+function success(res) {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
   res.end('Hello World\n');
 }
@@ -46,6 +45,6 @@ http.createServer(function (req, res) {
     success(res);
   }
 
-}).listen(process.env.PORT || '3000', "127.0.0.1");
+}).listen(process.env.VCAP_APP_PORT || 3000);
 
 console.log('Server running at http://127.0.0.1:', process.env.PORT || '3000');
